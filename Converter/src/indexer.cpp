@@ -1,6 +1,8 @@
 
 #include <cerrno>
+#if __has_include(<execution>)
 #include <execution>
+#endif
 #include <algorithm>
 
 #include "indexer.h"
@@ -10,6 +12,8 @@
 #include "PotreeConverter.h"
 #include "DbgWriter.h"
 #include "brotli/encode.h"
+
+#include "unsuck/filesystem.hpp"
 
 using std::unique_lock;
 
@@ -1601,7 +1605,3 @@ void doIndexing(string targetDir, State& state, Options& options, Sampler& sampl
 
 
 }
-
-
-
-

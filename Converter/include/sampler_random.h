@@ -1,7 +1,9 @@
 
 #pragma once
 
+#if __has_include(<execution>)
 #include <execution>
+#endif
 
 #include "structures.h"
 #include "Attributes.h"
@@ -218,4 +220,3 @@ struct SamplerRandom : public Sampler {
 	}
 
 };
-

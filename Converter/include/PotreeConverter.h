@@ -1,7 +1,9 @@
 
 #pragma once
 
+#if __has_include(<execution>)
 #include <execution>
+#endif
 
 #include "Vector3.h"
 #include "LasLoader/LasLoader.h"
@@ -189,9 +191,12 @@ inline Attributes computeOutputAttributes(vector<Source>& sources, vector<string
 	// compute scale and offset from all sources
 	{
 		mutex mtx;
+#if __has_include(<execution>)
 		auto parallel = std::execution::par;
 		for_each(parallel, sources.begin(), sources.end(), [&mtx, &sources, &scaleMin, &min, &max, requestedAttributes, &fullAttributeList, &acceptedAttributeNames](Source source) {
-
+#else
+		for (auto source : sources) {
+#endif
 			auto header = loadLasHeader(source.path);
 
 			vector<Attribute> attributes = computeOutputAttributes(header);
@@ -220,7 +225,11 @@ inline Attributes computeOutputAttributes(vector<Source>& sources, vector<string
 			max.z = std::max(max.z, header.max.z);
 
 			mtx.unlock();
+#if __has_include(<execution>)
 			});
+#else
+		}
+#endif
 
 		auto scaleOffset = computeScaleOffset(min, max, scaleMin);
 		scale = scaleOffset.scale;
@@ -327,6 +336,3 @@ inline string toString(Attributes& attributes){
 
 	return ss.str();
 }
-
-
-

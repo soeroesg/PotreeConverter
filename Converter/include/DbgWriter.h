@@ -1,11 +1,10 @@
 
 #pragma once
 
-#include <filesystem>
+#include "unsuck/filesystem.hpp"
 
 #include "structures.h"
 
-namespace fs = std::filesystem;
 
 namespace dbgwriter{
 
@@ -540,7 +539,3 @@ namespace dbgwriter{
 
 
 }
-
-
-
-

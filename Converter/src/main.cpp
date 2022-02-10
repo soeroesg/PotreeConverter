@@ -1,9 +1,11 @@
 
 
 #include <iostream>
+#if __has_include(<execution>)
 #include <execution>
+#endif
 
-#include "unsuck/unsuck.hpp"
+#include "unsuck/filesystem.hpp"
 #include "chunker_countsort_laszip.h"
 #include "indexer.h"
 #include "sampler_poisson.h"
@@ -98,7 +100,11 @@ Options parseArguments(int argc, char** argv) {
 
 	}
 
+#if __has_include(<filesystem>)
 	outdir = fs::weakly_canonical(fs::path(outdir)).string();
+#else
+	outdir = fs::canonical(fs::path(outdir)).string();
+#endif
 
 	//vector<string> flags = args.get("flags").as<vector<string>>();
 
@@ -176,9 +182,12 @@ Curated curateSources(vector<string> paths) {
 	sources.reserve(paths.size());
 
 	mutex mtx;
+#if __has_include(<execution>)
 	auto parallel = std::execution::par;
 	for_each(parallel, paths.begin(), paths.end(), [&mtx, &sources](string path) {
-
+#else
+	for (auto path : paths) {
+#endif
 		auto header = loadLasHeader(path);
 		auto filesize = fs::file_size(path);
 
@@ -194,7 +203,11 @@ Curated curateSources(vector<string> paths) {
 
 		lock_guard<mutex> lock(mtx);
 		sources.push_back(source);
+#if __has_include(<execution>)
 	});
+#else
+	}
+#endif
 
 	return {name, sources};
 }

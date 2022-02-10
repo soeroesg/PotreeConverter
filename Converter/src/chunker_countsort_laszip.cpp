@@ -1,6 +1,5 @@
 
 #include <iostream>
-#include <filesystem>
 #include <unordered_map>
 #include <thread>
 #include <mutex>
@@ -11,7 +10,7 @@
 
 #include "Attributes.h"
 #include "converter_utils.h"
-#include "unsuck/unsuck.hpp"
+#include "unsuck/filesystem.hpp"
 #include "unsuck/TaskPool.hpp"
 #include "Vector3.h"
 #include "ConcurrentWriter.h"
@@ -34,9 +33,6 @@ using std::make_shared;
 using std::shared_ptr;
 using std::unique_ptr;
 using std::atomic_int32_t;
-
-namespace fs = std::filesystem;
-
 
 
 namespace chunker_countsort_laszip {
@@ -1173,8 +1169,8 @@ namespace chunker_countsort_laszip {
 			string dir = targetDir + "/chunks";
 			fs::create_directories(dir);
 
-			for (const auto& entry : std::filesystem::directory_iterator(dir)) {
-				std::filesystem::remove(entry);
+			for (const auto& entry : fs::directory_iterator(dir)) {
+				fs::remove(entry);
 			}
 		}
 

@@ -7,7 +7,6 @@
 #include <sstream>
 #include <chrono>
 #include <iostream>
-#include <filesystem>
 #include <limits>
 #include <random>
 #include <memory>
@@ -15,6 +14,9 @@
 #include <thread>
 #include <cstdint>
 #include <cstring>
+#include <iomanip>
+
+#include "unsuck/filesystem.hpp"
 
 using std::cout;
 using std::endl;
@@ -31,8 +33,6 @@ using std::ios;
 using std::shared_ptr;
 using std::make_shared;
 using std::chrono::high_resolution_clock;
-
-namespace fs = std::filesystem;
 
 static long long unsuck_start_time = high_resolution_clock::now().time_since_epoch().count();
 
@@ -573,4 +573,3 @@ inline string rightPad(string in, int64_t length, const char character = ' ') {
 
 #define GENERATE_ERROR_MESSAGE cout << "ERROR(" << __FILE__ << ":" << __LINE__ << "): "
 #define GENERATE_WARN_MESSAGE cout << "WARNING: "
-

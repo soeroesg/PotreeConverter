@@ -5,7 +5,6 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <filesystem>
 #include <thread>
 #include <mutex>
 #include <atomic>
@@ -20,8 +19,6 @@ using std::thread;
 using std::mutex;
 using std::lock_guard;
 using std::atomic_int64_t;
-
-namespace fs = std::filesystem;
 
 struct LASPointF2 {
 	int32_t x;

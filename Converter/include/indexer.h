@@ -2,7 +2,6 @@
 #pragma once
 
 #include <string>
-#include <filesystem>
 #include <algorithm>
 #include <deque>
 #include <unordered_map>
@@ -37,8 +36,6 @@ using std::shared_ptr;
 using std::make_shared;
 using std::fstream;
 using std::mutex;
-
-namespace fs = std::filesystem;
 
 namespace indexer{
 

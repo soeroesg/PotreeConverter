@@ -1,7 +1,9 @@
 
 #pragma once
 
+#if __has_include(<execution>)
 #include <execution>
+#endif
 
 #include "structures.h"
 #include "Attributes.h"
@@ -175,10 +177,12 @@ struct SamplerPoisson : public Sampler {
 				return true;
 
 			};
-
+#if __has_include(<execution>)
 			auto parallel = std::execution::par_unseq;
 			std::sort(parallel, points.begin(), points.end(), [center](Point a, Point b) -> bool {
-
+#else
+			std::sort(points.begin(), points.end(), [center](Point a, Point b) -> bool {
+#endif
 				auto ax = a.x - center.x;
 				auto ay = a.y - center.y;
 				auto az = a.z - center.z;
@@ -289,4 +293,3 @@ struct SamplerPoisson : public Sampler {
 	}
 
 };
-

@@ -4,10 +4,11 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
-#include <filesystem>
 #include <sstream>
 #include <mutex>
 #include <thread>
+
+#include "unsuck/filesystem.hpp"
 
 using std::ofstream;
 using std::fstream;
@@ -20,7 +21,6 @@ using std::endl;
 using std::mutex;
 using std::lock_guard;
 
-namespace fs = std::filesystem;
 
 namespace logger{
 
