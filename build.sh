@@ -19,3 +19,6 @@ make -j
 # The CMAKE_MODULE_PATH can point to a directory containing FindTBB.cmake
 # If FindTBB does not work, commenting out TBB in CMakeLists will disable TBB completely
 
+echo "You can install PotreeConverter with:"
+echo "sudo make install"
+
