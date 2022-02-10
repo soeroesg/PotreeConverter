@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.10)
 set(CMAKE_SUPPRESS_REGENERATION true)
 
 project(PotreeConverter LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
 
@@ -26,6 +26,7 @@ set(HEADER_FILES
 	./Converter/include/logger.h
 	./Converter/modules/LasLoader/LasLoader.h
 	./Converter/modules/unsuck/unsuck.hpp
+	./Converter/modules/unsuck/filesystem.hpp
 )
 
 add_executable(PotreeConverter 
@@ -55,13 +56,16 @@ target_include_directories(PotreeConverter PRIVATE "./Converter/libs")
 
 if (UNIX)
 	find_package(Threads REQUIRED)
-	find_package(TBB REQUIRED)
-	
 	target_link_libraries(${PROJECT_NAME} Threads::Threads)
-	target_link_libraries(${PROJECT_NAME} tbb)
-
-
 	#SET(CMAKE_CXX_FLAGS "-pthread -ltbb")
+
+	#find_package(TBB REQUIRED)
+	#target_link_libraries(${PROJECT_NAME} tbb)
+
+	if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.0)
+		# this is required for std::filesystem on GCC < 9.0
+		target_link_libraries(${PROJECT_NAME} stdc++fs)
+	endif()
 endif (UNIX)
 
 ###############################################
@@ -106,4 +110,3 @@ add_custom_command(
 	COMMAND ${CMAKE_COMMAND} -E copy
 		${PROJECT_SOURCE_DIR}/README.md
 		$<TARGET_FILE_DIR:${PROJECT_NAME}>/README.md)
-

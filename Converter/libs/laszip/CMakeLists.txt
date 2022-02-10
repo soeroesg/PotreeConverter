@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.10)
 set(CMAKE_SUPPRESS_REGENERATION true)
 
 project(LASzip LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
@@ -43,14 +43,19 @@ target_include_directories(laszip PRIVATE
 
 set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
 
-add_compile_definitions(OPENCV_VERSION=${OpenCV_VERSION})
-add_compile_definitions(_CRT_SECURE_NO_DEPRECATE)
-add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
-add_compile_definitions(_CRT_NONSTDC_NO_WARNING)
-add_compile_definitions(_SCL_SECURE_NO_WARNINGS)
-add_compile_definitions(NOMINMAX)
-add_compile_definitions(WIN32_LEAN_AND_MEAN)
-add_compile_definitions(LASZIP_DLL_EXPORT=1)
-add_compile_definitions(LASZIPDLL_EXPORTS)
-add_compile_definitions(UNORDERED)
-add_compile_definitions(HAVE_UNORDERED_MAP=1)
+target_compile_definitions(laszip PUBLIC OPENCV_VERSION=${OpenCV_VERSION})
+target_compile_definitions(laszip PUBLIC _CRT_SECURE_NO_DEPRECATE)
+target_compile_definitions(laszip PUBLIC _CRT_SECURE_NO_WARNINGS)
+target_compile_definitions(laszip PUBLIC _CRT_NONSTDC_NO_WARNING)
+target_compile_definitions(laszip PUBLIC _SCL_SECURE_NO_WARNINGS)
+target_compile_definitions(laszip PUBLIC NOMINMAX)
+target_compile_definitions(laszip PUBLIC WIN32_LEAN_AND_MEAN)
+target_compile_definitions(laszip PUBLIC LASZIP_DLL_EXPORT=1)
+target_compile_definitions(laszip PUBLIC LASZIPDLL_EXPORTS)
+target_compile_definitions(laszip PUBLIC UNORDERED)
+target_compile_definitions(laszip PUBLIC HAVE_UNORDERED_MAP=1)
+
+if(UNIX)
+  find_package(LASlib REQUIRED)
+  target_link_libraries(laszip PUBLIC LASlib)
+endif()
