@@ -10,6 +10,8 @@ cmake .. \
     -DCMAKE_USE_PTHREADS_INIT=1 \
     -DCMAKE_MODULE_PATH=../../cmake
 
+make -j
+
 # Note:
 # Ubuntu 18 comes with CMake 3.10 as of Jan 2022
 # TBB and Threads libraries are not found by CMake.
